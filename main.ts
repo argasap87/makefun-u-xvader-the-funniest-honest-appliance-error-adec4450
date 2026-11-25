@@ -11,7 +11,10 @@ import { mkdirSync, writeFileSync } from "node:fs";
 const LINE =
   "Unbalanced load. Your duvet has rolled into a ball and is throwing itself against my walls. I cannot help you.";
 
-if (LINE.length < 1 || LINE.length > 200) {
+// Gate guard: the sealed gate is 1-200 chars, so reject anything outside
+// that range, and also reject a line that is only whitespace — it would
+// count as characters but carry no content.
+if (LINE.length < 1 || LINE.length > 200 || LINE.trim().length === 0) {
   throw new Error(`entry must be 1-200 characters, got ${LINE.length}`);
 }
 
